@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<project name="FLCore" default="jar">
+
+<property name="project.name" value="FLCore" />
+
+<path id="libs.path">
+	<pathelement location="lib/jogl.jar" />
+	<pathelement location="lib/png.jar" />
+	<pathelement location="lib/junit.jar" />
+</path>
+
+<!-- clean -->
+
+<target name="clean">
+	<mkdir dir="bin" />
+	<delete includeEmptyDirs="true">
+		<fileset dir="bin" />
+		<fileset dir="." includes="TEST-*.txt" />
+		<fileset dir="." includes="*.jar" />
+	</delete>
+</target>
+
+<target name="clean-all" depends="clean" />
+
+<!-- compile -->
+
+<target name="compile">
+	<mkdir dir="bin" />
+	<javac srcdir="src" destdir="bin" debug="on" source="1.4">
+		<classpath refid="libs.path" />
+	</javac>
+	<copy todir="bin">
+		<fileset dir="src">
+			<exclude name="**/*.java" />
+			<exclude name="**/*.jj" />
+			<exclude name="**/*.bak" />
+			<exclude name="**/*~" />
+		</fileset>
+	</copy>
+</target>
+
+<!-- jar -->
+
+<target name="jar" depends="compile">
+	<jar jarfile="${project.name}.jar">
+		<fileset dir="bin" />
+	</jar>
+</target>
+
+<!-- test -->
+
+<target name="test" depends="compile">
+	<junit printsummary="yes">
+		<formatter type="plain" />
+		<classpath refid="libs.path" />
+		<classpath refid="clover.classpath" />
+		<classpath>
+			<pathelement path="bin" />
+			<pathelement path="data" />
+		</classpath>
+		<batchtest fork="yes" todir=".">
+			<fileset dir="src">
+				<include name="**/*Tests.java" />
+			</fileset>
+		</batchtest>
+	</junit>
+</target>
+
+<!-- ********** -->
+
+<property name="clover.initstring" location="/temp/mycoverage.db"/>
+<property name="clover.dir" value="../clover"/>
+
+<target name="with.clover">
+	<property name="build.compiler" value="org.apache.tools.ant.taskdefs.CloverCompilerAdapter"/>
+</target>
+
+<path id="clover.classpath">
+	<pathelement path="${clover.dir}/lib/clover.jar"/>
+	<pathelement path="${clover.dir}/lib/velocity.jar"/>
+</path>
+
+<target name="clover.report">
+	<java classname="com.cortexeb.tools.clover.reporters.jfc.Viewer" fork="yes">
+		<arg line="${clover.initstring}"/>
+		<classpath refid="clover.classpath"/>
+	</java>
+</target>
+
+<!-- ********** -->
+
+</project>
+
