@@ -66,21 +66,21 @@ On my test runs, vecmath1() was consistently 3 times slower than vecmath2(). (I 
 
 I propose that Hotspot could perform an aggressive optimization to remove the superfluous object creations in vecmath1().  It could do this by performing an analysis on the bytecodes that goes something like this:
 
-  # Each reference (local slot) and parameter in a method can have one or more of these flags: NEW, MIGRATED, STORED, RETURNED.
+  * Each reference (local slot) and parameter in a method can have one or more of these flags: NEW, MIGRATED, STORED, RETURNED.
 
-  # When an object is allocated with the 'new' keyword, it is flagged as NEW.
+  * When an object is allocated with the 'new' keyword, it is flagged as NEW.
 
-  # If a method A could possibly store a reference B in one of its fields or in an array, reference B is marked as STORED.
+  * If a method A could possibly store a reference B in one of its fields or in an array, reference B is marked as STORED.
 
-  # If a method could possibly pass a reference A to a method B, the reference A's flags are unioned with the flags of the parameter in method B, and the reference A is marked as MIGRATED. (Note that for this to work, method B must be analyzed before method A, so recursion has to be handled)
+  * If a method could possibly pass a reference A to a method B, the reference A's flags are unioned with the flags of the parameter in method B, and the reference A is marked as MIGRATED. (Note that for this to work, method B must be analyzed before method A, so recursion has to be handled)
 
-  # If a method returns a parameter which has NEW and no other flags, the entire method is marked as RETURNS-NEW.
+  * If a method returns a parameter which has NEW and no other flags, the entire method is marked as RETURNS-NEW.
 
-  # If a slot is assigned the value of a method that is marked RETURNS-NEW, the slot is marked NEW.
+  * If a slot is assigned the value of a method that is marked RETURNS-NEW, the slot is marked NEW.
 
-  # If a reference could possibly be returned by a method, the reference is marked RETURNED.
+  * If a reference could possibly be returned by a method, the reference is marked RETURNED.
 
-  # If an object is marked NEW and has no other flags, it may safely be deallocated upon exiting the method.
+  * If an object is marked NEW and has no other flags, it may safely be deallocated upon exiting the method.
 
 (Please take all this with a grain of salt, it's not a rigorous analysis, but I have done a sample implementation.)  This analysis can be performed during the bytecode analysis phase, as it is similar to bytecode verification.  I'm sure I forgot quite a few things in this description of the algorithm.  Also, if the objects are known to reside on the stack in a certain location, I'm sure many more code optimizations could take place.
 
