@@ -3,11 +3,12 @@
 <project name="FLCore" default="jar">
 
 <property name="project.name" value="FLCore" />
+<property name="jogl.platform" value="windows-i586" />
 
 <path id="libs.path">
-	<pathelement location="lib/jogl.jar" />
-	<pathelement location="lib/png.jar" />
-	<pathelement location="lib/junit.jar" />
+	<pathelement location="lib/${jogl.version}/jogl.jar" />
+	<pathelement location="lib/${jogl.version}/png.jar" />
+	<pathelement location="lib/${jogl.version}/junit.jar" />
 </path>
 
 <!-- clean -->
@@ -65,6 +66,20 @@
 			</fileset>
 		</batchtest>
 	</junit>
+</target>
+
+<!-- get-dependencies -->
+
+<target name="get-dependencies">
+	<get
+		src="http://download.java.net/media/jogl/builds/archive/jsr-231-1.1.0/jogl-1.1.0-${jogl.platform}.zip"
+		dest="jogl-${jogl.platform}.zip"/>
+	<unzip src="jogl-${jogl.platform}.zip" dest="lib">
+		<patternset>
+	        	<include name="**/lib/**"/>
+		</patternset>
+		<mapper type="flatten"/>
+	</unzip>
 </target>
 
 <!-- ********** -->
