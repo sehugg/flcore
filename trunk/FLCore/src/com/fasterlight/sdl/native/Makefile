@@ -1,0 +1,40 @@
+
+#CC=gcc295
+CFLAGS=-shared -g -Wall -I/usr/local/java/include -I/usr/local/java/include/freebsd -I/usr/include/SDL -I/usr/local/include/SDL
+LDFLAGS=-L/usr/lib -L/usr/local/lib -lSDL -pthread
+OBJS=\
+	com_fasterlight_sdl_video_SDLVideo.o \
+	com_fasterlight_sdl_video_SDLSurface.o \
+	com_fasterlight_sdl_event_SDLEventQueue.o \
+	com_fasterlight_sdl_joystick_SDLJoystick.o \
+	com_fasterlight_sdl_timer_SDLTimer.o \
+	JSDL.o
+
+HEADERS=com_fasterlight_sdl_video_SDLSurface.h com_fasterlight_sdl_video_SDLVideo.h com_fasterlight_sdl_video_SDLVideoInfo.h
+
+
+libjsdl.so:	${OBJS}
+	${CC} -shared -o $@ ${OBJS} ${LDFLAGS}
+
+headers: ${HEADERS}
+
+com_fasterlight_sdl_video_SDLSurface.h:
+	javah -jni com.fasterlight.sdl.video.SDLSurface
+
+com_fasterlight_sdl_video_SDLVideo.h:
+	javah -jni com.fasterlight.sdl.video.SDLVideo
+
+com_fasterlight_sdl_video_SDLVideoInfo.h:
+	javah -jni com.fasterlight.sdl.video.SDLVideoInfo
+
+com_fasterlight_sdl_joystick_SDLJoystick.h:
+	javah -jni com.fasterlight.sdl.joystick.SDLJoystick
+
+com_fasterlight_sdl_joystick_SDLTimer.h:
+	javah -jni com.fasterlight.sdl.timer.SDLTimer
+
+sdltest: sdltest.c
+	${CC} -I/usr/include/SDL -o $@ sdltest.c -lSDL -lpthread
+
+clean:
+	rm -f ${OBJS} libjsdl.so
