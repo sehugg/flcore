@@ -172,6 +172,8 @@ public class GLOAWTComponent
 	/** Handles key pressed event */
 	public void keyPressed(KeyEvent evt)
 	{
+		if (ctx == null)
+			return;
 		int mod = evt.getModifiers();
 		mod &= GLOKeyEvent.MOD_ALL;
 		//System.out.println(evt);
@@ -187,6 +189,8 @@ public class GLOAWTComponent
 	/** Handles key released events */
 	public void keyReleased(KeyEvent evt)
 	{
+		if (ctx == null)
+			return;
 		ctx.deliverEvent(
 			new GLOKeyEvent(ctx, evt.getModifiers(), evt.getKeyCode(), evt.getKeyChar(), false));
 	}
@@ -206,6 +210,8 @@ public class GLOAWTComponent
 
 	public void mousePressed(MouseEvent evt)
 	{
+		if (ctx == null)
+			return;
 		int x = ctx.xscrn2world(evt.getX());
 		int y = ctx.yscrn2world(evt.getY());
 		ctx.deliverEvent(new GLOMouseButtonEvent(ctx, x, y, getModifiers(evt), true));
@@ -213,6 +219,8 @@ public class GLOAWTComponent
 
 	public void mouseReleased(MouseEvent evt)
 	{
+		if (ctx == null)
+			return;
 		int x = ctx.xscrn2world(evt.getX());
 		int y = ctx.yscrn2world(evt.getY());
 		ctx.deliverEvent(new GLOMouseButtonEvent(ctx, x, y, getModifiers(evt), false));
@@ -221,6 +229,8 @@ public class GLOAWTComponent
 	/** MouseMotionListener */
 	public void mouseDragged(MouseEvent evt)
 	{
+		if (ctx == null)
+			return;
 		int x = ctx.xscrn2world(evt.getX());
 		int y = ctx.yscrn2world(evt.getY());
 		ctx.setMousePos(x, y);
@@ -228,6 +238,8 @@ public class GLOAWTComponent
 
 	public void mouseMoved(MouseEvent evt)
 	{
+		if (ctx == null)
+			return;
 		int x = ctx.xscrn2world(evt.getX());
 		int y = ctx.yscrn2world(evt.getY());
 		ctx.setMousePos(x, y);
