@@ -76,8 +76,7 @@
 
 <!-- get-dependencies -->
 
-<target name="get-dependencies">
-	<!-- get JOGL -->
+<target name="get-jogl">
 	<get
 		src="http://download.java.net/media/jogl/builds/archive/jsr-231-1.1.0/jogl-1.1.0-${jogl.platform}.zip"
 		dest="jogl-${jogl.platform}.zip"/>
@@ -87,7 +86,9 @@
 		</patternset>
 		<mapper type="flatten"/>
 	</unzip>
-	<!-- get SDLJava -->
+</target>
+
+<target name="get-sdljava">
 	<get
 		src="http://downloads.sourceforge.net/sdljava/sdljava-0.9.1-${sdljava.platform}-bin.zip"
 		dest="sdljava-${sdljava.platform}.zip"/>
@@ -97,6 +98,9 @@
 		</patternset>
 		<mapper type="flatten"/>
 	</unzip>
+</target>
+	
+<target name="get-dependencies" depends="get-jogl,get-sdljava">
 </target>
 
 <!-- ********** -->
