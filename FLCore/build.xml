@@ -88,6 +88,17 @@
 	</unzip>
 </target>
 
+<target name="get-sdl">
+	<get
+		src="http://www.libsdl.org/release/SDL-1.2.13-${sdljava.platform}.zip"
+		dest="sdl-${sdljava.platform}.zip"/>
+<!--
+	<unzip src="sdl-${sdljava.platform}.zip" dest="lib/${jogl.platform}/">
+		<mapper type="flatten"/>
+	</unzip>
+-->
+</target>
+		
 <target name="get-sdljava">
 	<get
 		src="http://downloads.sourceforge.net/sdljava/sdljava-0.9.1-${sdljava.platform}-bin.zip"
@@ -100,7 +111,7 @@
 	</unzip>
 </target>
 	
-<target name="get-dependencies" depends="get-jogl,get-sdljava">
+<target name="get-dependencies" depends="get-jogl,get-sdljava,get-sdl">
 </target>
 
 <!-- ********** -->
