@@ -1,5 +1,9 @@
 #summary How to install and build FLCore.
 
+ * You need Java (probably 1.5 or 1.6, I just download the latest [http://eclipse.org Eclipse]).
+ * You need OpenGL
+ * You need Windows, Linux, or OS X -- but we have only tested recently on Windows
+
 == OS X ==
 
 Create a "build.properties" with the following entries:
