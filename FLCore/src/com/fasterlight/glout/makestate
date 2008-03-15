@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+
+while (<>)
+{
+	($mprefix, $flagname) = split;
+
+	print "\n\tpublic void enable$mprefix()\n\t{\n";
+	print "\t\tif ((enable_flags & $flagname) == 0) {\n";
+	print "\t\t\tgl.glEnable(GL_$flagname);\n";
+	print "\t\t\tenable_flags |= $flagname;\n";
+	print "\t\t}\n";
+	print "\t}\n";
+
+	print "\n\tpublic void disable$mprefix()\n\t{\n";
+	print "\t\tif ((enable_flags & $flagname) != 0) {\n";
+	print "\t\t\tgl.glDisable(GL_$flagname);\n";
+	print "\t\t\tenable_flags &= ~$flagname;\n";
+	print "\t\t}\n";
+	print "\t}\n";
+
+}
+
+print "\n";
+
