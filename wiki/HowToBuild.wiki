@@ -1,0 +1,4 @@
+#summary How to install and build FLCore.
+
+ 1. Run Ant file "build.xml" with target "get-dependencies". This will download and unzip libraries to the "lib" directory.
+ 2. Run Ant target "jar" to compile source and make FLCore.jar file.
