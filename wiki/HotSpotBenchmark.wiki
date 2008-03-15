@@ -1,5 +1,5 @@
 #labels hotspot,optimization,escapeanalysis
-Object creation is considerably fast in JDK 1.3, but there are often instance where objects are created unneccessarily.  One such instance is when objects are created inside of a method and not passed or stored anywhere outside that method.  In C++, such variables would be stored on the stack and destructed when the method exits.
+Object creation is considerably fast in JDK 1.3, but there are often instances where objects are created unnecessarily.  One such instance is when objects are created inside of a method and not passed or stored anywhere outside that method.  In C++, such variables would be stored on the stack and destructed when the method exits.
 
 In Java, object creation incurs a heavy cost and must be avoided for tight loops.  Such a performance penalty often causes the programmer to use unnatural techniques, like static temporaries, when trying to work around the problem.  
 
@@ -60,11 +60,11 @@ public class BenchHotspot
 }
 }}}
 
-Here I have two methods which each perform the same operation: squaring the components of a 3-vector 3 times.  The first method, vecmath1(), performs it in a functional style, which is more natural for this type of application.  Unfortunately this method creates 4 objects each time it is run.  The second method, vecmath2(), creates only 1 object on each run but performs the same operation.  It does this by passing the Vector3d object to the method sqrInPlace(), which squares the vector without returning it.
+Here I have two methods which each perform the same operation: squaring the components of a 3-vector 3 times.  The first method, vecmath1(), performs it in a functional style, which is more natural for this type of application.  Unfortunately, this method creates 4 objects each time it is run.  The second method, vecmath2(), creates only 1 object on each run but performs the same operation.  It does this by passing the Vector3d object to the method sqrInPlace(), which squares the vector without returning it.
 
 On my test runs, vecmath1() was consistently 3 times slower than vecmath2(). (I tried swapping the order of execution to avoid Hotspot compilation slowdown, but it had no effect).
 
-I propose that Hotspot could perform an agressive optimization to remove the superfluous object creations in vecmath1().  It could do this by performing an analysis on the bytecodes that goes something like this:
+I propose that Hotspot could perform an aggressive optimization to remove the superfluous object creations in vecmath1().  It could do this by performing an analysis on the bytecodes that goes something like this:
 
   # Each reference (local slot) and parameter in a method can have one or more of these flags: NEW, MIGRATED, STORED, RETURNED.
 
@@ -82,6 +82,6 @@ I propose that Hotspot could perform an agressive optimization to remove the sup
 
   # If an object is marked NEW and has no other flags, it may safely be deallocated upon exiting the method.
 
-(Please take all this with a grain of salt, it's not a rigorous analysis, but I have done a sample implementation)  This analysis can be performed during the bytecode analysis phase, as it is similar to bytecode verification.  I'm sure I forgot quite a few things in this description of the algorithm.  Also, if the objects are known to reside on the stack in a certain location, I'm sure many more code optimizations could take place.
+(Please take all this with a grain of salt, it's not a rigorous analysis, but I have done a sample implementation.)  This analysis can be performed during the bytecode analysis phase, as it is similar to bytecode verification.  I'm sure I forgot quite a few things in this description of the algorithm.  Also, if the objects are known to reside on the stack in a certain location, I'm sure many more code optimizations could take place.
 
 Anyway, having this optimization in Hotspot would greatly improve my vector math code.  So you gotta do it!! :)
