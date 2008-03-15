@@ -4,11 +4,14 @@
 
 <property name="project.name" value="FLCore" />
 <property name="jogl.platform" value="windows-i586" />
+<property name="sdljava.platform" value="win32" />
 
 <path id="libs.path">
 	<pathelement location="lib/${jogl.version}/jogl.jar" />
+	<pathelement location="lib/${jogl.version}/gluegen-rt.jar" />
 	<pathelement location="lib/${jogl.version}/png.jar" />
 	<pathelement location="lib/${jogl.version}/junit.jar" />
+	<pathelement location="lib/${jogl.version}/sdljava.jar" />
 </path>
 
 <!-- clean -->
@@ -71,12 +74,23 @@
 <!-- get-dependencies -->
 
 <target name="get-dependencies">
+	<!-- get JOGL -->
 	<get
 		src="http://download.java.net/media/jogl/builds/archive/jsr-231-1.1.0/jogl-1.1.0-${jogl.platform}.zip"
 		dest="jogl-${jogl.platform}.zip"/>
-	<unzip src="jogl-${jogl.platform}.zip" dest="lib">
+	<unzip src="jogl-${jogl.platform}.zip" dest="lib/${jogl.platform}/">
 		<patternset>
-	        	<include name="**/lib/**"/>
+	        	<include name="**/lib/*"/>
+		</patternset>
+		<mapper type="flatten"/>
+	</unzip>
+	<!-- get SDLJava -->
+	<get
+		src="http://downloads.sourceforge.net/sdljava/sdljava-0.9.1-${sdljava.platform}-bin.zip"
+		dest="sdljava-${sdljava.platform}.zip"/>
+	<unzip src="sdljava-${sdljava.platform}.zip" dest="lib/${jogl.platform}/">
+		<patternset>
+	        	<include name="**/lib/*"/>
 		</patternset>
 		<mapper type="flatten"/>
 	</unzip>
