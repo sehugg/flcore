@@ -79,8 +79,8 @@
 <target name="get-jogl">
 	<get
 		src="http://download.java.net/media/jogl/builds/archive/jsr-231-1.1.0/jogl-1.1.0-${jogl.platform}.zip"
-		dest="jogl-${jogl.platform}.zip"/>
-	<unzip src="jogl-${jogl.platform}.zip" dest="lib/${jogl.platform}/">
+		dest="temp/jogl-${jogl.platform}.zip"/>
+	<unzip src="temp/jogl-${jogl.platform}.zip" dest="lib/${jogl.platform}/">
 		<patternset>
 	        	<include name="**/lib/*"/>
 		</patternset>
@@ -91,7 +91,7 @@
 <target name="get-sdl">
 	<get
 		src="http://www.libsdl.org/release/SDL-1.2.13-${sdljava.platform}.zip"
-		dest="sdl-${sdljava.platform}.zip"/>
+		dest="temp/sdl-${sdljava.platform}.zip"/>
 <!--
 	<unzip src="sdl-${sdljava.platform}.zip" dest="lib/${jogl.platform}/">
 		<mapper type="flatten"/>
@@ -102,8 +102,8 @@
 <target name="get-sdljava">
 	<get
 		src="http://downloads.sourceforge.net/sdljava/sdljava-0.9.1-${sdljava.platform}-bin.zip"
-		dest="sdljava-${sdljava.platform}.zip"/>
-	<unzip src="sdljava-${sdljava.platform}.zip" dest="lib/${jogl.platform}/">
+		dest="temp/sdljava-${sdljava.platform}.zip"/>
+	<unzip src="temp/sdljava-${sdljava.platform}.zip" dest="lib/${jogl.platform}/">
 		<patternset>
 	        	<include name="**/lib/*"/>
 		</patternset>
