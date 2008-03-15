@@ -2,7 +2,7 @@
 
 == OS X ==
 
-  # Create a "build.properties" with the following entries:
+Create a "build.properties" with the following entries:
 {{{
 jogl.platform=macosx-universal
 sdljava.platform=
@@ -10,9 +10,10 @@ sdljava.platform=
 
 == Windows ==
 
-  # If SDL 1.2 is not installed, you will have to unzip the `SDL` zip file (downloaded for your convenience after the "get-dependencies" step below) and install it. Usually this is just a manner of copying the `SDL.dll` file to the `\Windows` directory.
+If SDL 1.2 is not installed, you will have to unzip the `SDL` zip file (downloaded for your convenience after the "get-dependencies" step below) and install it. Usually this is just a manner of copying the `SDL.dll` file to the `\Windows` directory.
 
 == Building ==
 
-  # Run Ant file "build.xml" with target "get-dependencies". This will download and unzip libraries to the "lib" directory.
-  # If using Eclipse, refresh the project to build. If not, run Ant target "jar" to compile source and make the `FLCore.jar` file.
+Run Ant file "build.xml" with target "get-dependencies". This will download and unzip libraries to the "lib" directory.
+
+If using Eclipse, refresh the project to build. If not, run Ant target "jar" to compile source and make the `FLCore.jar` file.
