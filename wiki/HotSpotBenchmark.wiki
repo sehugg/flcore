@@ -1,4 +1,3 @@
-#labels hotspot,optimization,escapeanalysis
 Object creation is considerably fast in JDK 1.3, but there are often instances where objects are created unnecessarily.  One such instance is when objects are created inside of a method and not passed or stored anywhere outside that method.  In C++, such variables would be stored on the stack and destructed when the method exits.
 
 In Java, object creation incurs a heavy cost and must be avoided for tight loops.  Such a performance penalty often causes the programmer to use unnatural techniques, like static temporaries, when trying to work around the problem.  
