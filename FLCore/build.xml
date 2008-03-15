@@ -6,6 +6,8 @@
 <property name="jogl.platform" value="windows-i586" />
 <property name="sdljava.platform" value="win32" />
 
+<property file="build.properties"/>
+	
 <path id="libs.path">
 	<pathelement location="lib/${jogl.version}/jogl.jar" />
 	<pathelement location="lib/${jogl.version}/gluegen-rt.jar" />
@@ -22,6 +24,7 @@
 		<fileset dir="bin" />
 		<fileset dir="." includes="TEST-*.txt" />
 		<fileset dir="." includes="*.jar" />
+		<fileset dir="." includes="*.zip" />
 	</delete>
 </target>
 
