@@ -1,4 +1,14 @@
 #summary How to install and build FLCore.
 
+== OS X ==
+
+  # Create a "build.properties" with the following entries:
+{{{
+jogl.platform=macosx-universal
+sdljava.platform=
+}}}
+
+== Building ==
+
   # Run Ant file "build.xml" with target "get-dependencies". This will download and unzip libraries to the "lib" directory.
   # Run Ant target "jar" to compile source and make FLCore.jar file.
