@@ -27,7 +27,7 @@ public class JMFSoundTest
 {
 	public static void main(String args[]) throws Exception
 	{
-		JMFSoundServer ss = new JMFSoundServer(new URL("file:./data/sounds/"));
+		JMFSoundServer ss = new JMFSoundServer(new URL("file:../Exoflight/data/sounds/"));
 		ss.setDebug(true);
 		ss.open();
 		System.out.println(ss.isOpen());
