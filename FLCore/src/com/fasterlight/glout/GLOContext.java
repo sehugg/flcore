@@ -460,6 +460,10 @@ public class GLOContext extends GLOContainer
 		{
 			GLOMessageBox.showOk(gloue.getMessage());
 			return false;
+		} catch (Exception ex)
+		{
+			ex.printStackTrace();
+			return false;
 		}
 	}
 
