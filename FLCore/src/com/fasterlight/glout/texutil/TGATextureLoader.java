@@ -24,6 +24,8 @@ import java.nio.ByteBuffer;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
+import com.sun.opengl.util.BufferUtil;
+
 /**
  * This is Class implements a TGA texture-loader !
  * At this time, this loader only supports
@@ -99,15 +101,16 @@ extends IOTextureLoader
 		    return false;
 	    }
 
-	    pixel=ByteBuffer.allocate(imageWidth * imageHeight * 3);
+	    pixel=BufferUtil.newByteBuffer(imageWidth * imageHeight * 3);
 
 	    //read TGA image data
-	    byte[] arr = (byte[])pixel.array();
+	    byte[] arr = new byte[pixel.limit()];
 	    reader.read(arr, 0, pixel.limit());
-
+	    reader.close();
+	    
 	    //process image data:
 	    // TGA pixels should be written in BGR format,
-	    // so R en B should be switched
+	    // so R & B should be switched
 	    byte tmp;
 	    for (int i=0; i<imageWidth*imageHeight*3; i+=3)
 	    {
@@ -116,7 +119,9 @@ extends IOTextureLoader
 	      arr[i+2]=tmp;
 	    }
 
-	    reader.close();
+	    ((ByteBuffer)pixel).put(arr);
+	    pixel.rewind();
+	    
 	    setTextureSize();
 	    return true;
 
