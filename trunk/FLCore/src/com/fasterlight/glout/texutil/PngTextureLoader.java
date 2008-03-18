@@ -26,6 +26,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
 import com.sixlegs.image.png.PngImage;
+import com.sun.opengl.util.BufferUtil;
 
 /**
  * This is Class implements the PNG texture-loader
@@ -117,14 +118,9 @@ extends IOTextureLoader
             };
 
             int ncmpts = getComponents();
-            pixel = ByteBuffer.allocate(imageWidth * imageHeight * ncmpts);
-            byte[] arr = (byte[])pixel.array();
+            pixel = BufferUtil.newByteBuffer(imageWidth * imageHeight * ncmpts);
+			ByteBuffer buf = (ByteBuffer) pixel;
 
-            byte alpha=0;
-            byte red=0;
-            byte green=0;
-            byte blue=0;
-            int offset=0;
             int aPixel;
             for(int y=imageHeight-1; y>=0; y--)
             {
@@ -135,32 +131,29 @@ extends IOTextureLoader
                 switch (glFormat)
                 {
                    case GL.GL_RGBA:
-                      arr[offset] = (byte)(aPixel>>16);
-                      arr[offset+1] = (byte)(aPixel>>8);
-                      arr[offset+2] = (byte)(aPixel>>0);
-                      arr[offset+3] = (byte)(aPixel>>24);
-                      offset += 4;
+                      buf.put( (byte)(aPixel>>16) );
+                      buf.put( (byte)(aPixel>>8) );
+                      buf.put( (byte)(aPixel>>0) );
+                      buf.put( (byte)(aPixel>>24) );
                       break;
                    case GL.GL_RGB:
-                      arr[offset] = (byte)(aPixel>>16);
-                      arr[offset+1] = (byte)(aPixel>>8);
-                      arr[offset+2] = (byte)(aPixel>>0);
-                      offset += 3;
+                      buf.put( (byte)(aPixel>>16) );
+                      buf.put( (byte)(aPixel>>8) );
+                      buf.put( (byte)(aPixel>>0) );
                       break;
                    case GL.GL_LUMINANCE_ALPHA: // todo: untested
-                      arr[offset] = (byte)(aPixel);
-                      arr[offset+1] = (byte)(aPixel>>24);
-                      offset += 2;
+                      buf.put( (byte)(aPixel) );
+                      buf.put( (byte)(aPixel>>24) );
                       break;
                    default:
-                      arr[offset] = (byte)(aPixel);
-                      offset += 1;
+                      buf.put( (byte)(aPixel) );
                       break;
                 }
 
               }
             }
 
+			buf.rewind();
             setTextureSize();
             return true;
 
