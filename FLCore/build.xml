@@ -34,7 +34,7 @@
 
 <target name="compile">
 	<mkdir dir="bin" />
-	<javac srcdir="src" destdir="bin" debug="on" source="1.4">
+	<javac srcdir="src" destdir="bin" debug="on" source="1.4" target="1.4">
 		<classpath refid="libs.path" />
 	</javac>
 	<copy todir="bin">
