@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/windows-i586/jdom.jar"/>
 	<classpathentry kind="lib" path="lib/windows-i586/jogl.jar"/>
 	<classpathentry kind="lib" path="lib/windows-i586/sdljava.jar"/>
+	<classpathentry kind="lib" path="lib/windows-i586/joal.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
