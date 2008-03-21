@@ -18,8 +18,15 @@
 *********************************************************************/
 package com.fasterlight.sound;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
 
 /**
   * Performs table-based  string substitution to convert a
@@ -144,7 +151,7 @@ public class TextToSpeechRenderer
 		{
 			SoundClip clip = sserver.getClip(fn, 0);
 			if (clip != null)
-				sserver.play(clip, do_queue ? SoundServer.QUEUE : 0);
+				sserver.queue(clip);
 			else
 				System.out.println("Could not find sound \"" + fn + '"');
 		}

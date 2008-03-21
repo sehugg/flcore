@@ -18,11 +18,26 @@
 *********************************************************************/
 package com.fasterlight.sound;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.WeakHashMap;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.Control;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.Line;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Mixer;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * An implementation of SoundServer that uses the JavaSound library. todo: do
@@ -181,27 +196,31 @@ public class JMFSoundServer implements SoundServer
 		if (!isOpen() || clip == null)
 			return;
 
-		boolean doQueue = (flags & QUEUE) != 0;
-		if (doQueue && isQueueing)
+		SoundChannel channel = getChannel(clip, 0);
+		if (channel == null)
+			return;
+		channel.play();
+	}
+
+	public void queue(SoundClip clip)
+	{
+		if (!isOpen() || clip == null)
+			return;
+
+		if (isQueueing)
 		{
 			queue.add(clip);
 			if (debug)
 				System.out.println("pushed, queue size=" + queue.size());
 		} else
 		{
-			SoundChannel channel = getChannel(clip, flags);
+			SoundChannel channel = getChannel(clip, 0);
 			if (channel == null)
-			{
 				return;
-			}
-			if (doQueue)
-			{
-				isQueueing = true;
-			}
-			channel.play(clip);
+			isQueueing = true;
+			channel.play();
 		}
 	}
-
 	public void playNextQueued(int flags)
 	{
 		if (!queue.isEmpty())
@@ -278,13 +297,13 @@ public class JMFSoundServer implements SoundServer
 			return line.isActive();
 		}
 
-		public void play(SoundClip clip)
+		public void play()
 		{
 			setNotify();
 			line.start();
 		}
 
-		public void loop(SoundClip clip, int ntimes)
+		public void loop(int ntimes)
 		{
 			line.setFramePosition(1);
 			line.loop(ntimes);
@@ -359,6 +378,11 @@ public class JMFSoundServer implements SoundServer
 		public float getSampleRate()
 		{
 			return getControlAbs(FloatControl.Type.SAMPLE_RATE);
+		}
+
+		public void setPitch(float rate) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 

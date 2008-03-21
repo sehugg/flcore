@@ -21,7 +21,9 @@ package com.fasterlight.sound.test;
 import java.net.URL;
 import java.util.Random;
 
-import com.fasterlight.sound.*;
+import com.fasterlight.sound.JMFSoundServer;
+import com.fasterlight.sound.SoundChannel;
+import com.fasterlight.sound.SoundClip;
 
 public class JMFSoundTest
 {
@@ -38,7 +40,7 @@ public class JMFSoundTest
 			float rate = rnd.nextFloat() * 44100;
 			chan.setSampleRate(rate);
 			System.out.println(chan + " " + rate);
-			chan.play(clip);
+			chan.play();
 			Thread.sleep(rnd.nextInt() & 511);
 		}
 		ss.close();
