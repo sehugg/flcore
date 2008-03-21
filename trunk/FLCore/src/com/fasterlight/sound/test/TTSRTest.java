@@ -53,6 +53,7 @@ extends TextToSpeechRenderer
 		test("185");
 		test("-1200");
 		test("123.456");
+		Thread.sleep(10000);
 	}
 
 	public static void main(String[] args)

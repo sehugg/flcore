@@ -19,9 +19,18 @@
 package com.fasterlight.sound;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
-import com.fasterlight.spif.*;
+import com.fasterlight.spif.PropertyAware;
+import com.fasterlight.spif.PropertyEvaluator;
+import com.fasterlight.spif.PropertyException;
+import com.fasterlight.spif.PropertyUtil;
 import com.fasterlight.util.INIFile;
 
 /**
@@ -288,7 +297,7 @@ public class PropertySoundRenderer
 			if (pitch != null)
 			{
 				v = pitch.getValue();
-				channel.setSampleRate(v*clip.getSampleRate());
+				channel.setPitch(v);
 			}
 			v=0;
 			if (volume != null)
@@ -306,7 +315,7 @@ public class PropertySoundRenderer
 				}
 			} else {
 				if (!playing) {
-					channel.loop(clip, -1);
+					channel.loop(-1);
 					playing = true;
 				}
 			}

@@ -20,8 +20,6 @@ package com.fasterlight.sound;
 
 public interface SoundServer
 {
-	public static final int QUEUE = 1;
-
 	public void open();
 	public void close();
 	public boolean isOpen();
@@ -29,5 +27,6 @@ public interface SoundServer
 	public SoundClip getClip(String name, int flags);
 	public SoundChannel getChannel(SoundClip clip, int flags);
 	public void play(SoundClip clip, int flags);
-	public boolean hasQueued();
+	public boolean hasQueued(); // returns TRUE if we have clips still processing
+	public void queue(SoundClip clip);
 }

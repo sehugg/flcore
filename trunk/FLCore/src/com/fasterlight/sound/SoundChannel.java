@@ -18,17 +18,17 @@
 *********************************************************************/
 package com.fasterlight.sound;
 
+import com.fasterlight.sound.JOALSoundServer.Clip;
+
 public interface SoundChannel
 {
-	public void play(SoundClip clip);
-	public void loop(SoundClip clip, int nloops);
+	public void play();
+	public void loop(int nloops);
 	public void stop();
 	public void close();
 	public void setVolume(float value);
 	public void setPan(float value);
 	public void setSampleRate(float value);
-	public float getVolume();
-	public float getPan();
-	public float getSampleRate();
+	public void setPitch(float rate);
 	public boolean isPlaying();
 }
