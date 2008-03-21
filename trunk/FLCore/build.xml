@@ -11,7 +11,8 @@
 <path id="libs.path">
 	<pathelement location="lib/${jogl.platform}/jogl.jar" />
 	<pathelement location="lib/${jogl.platform}/gluegen-rt.jar" />
-	<pathelement location="lib/${jogl.platform}/sdljava.jar" />
+	<pathelement location="lib/${jogl.platform}/joal.jar" />
+	<pathelement location="lib/${jogl.platform}/jinput.jar" />
 	<pathelement location="lib/png.jar" />
 	<pathelement location="lib/junit.jar" />
 </path>
