@@ -266,7 +266,14 @@ public class ProcTexProvider
 
 		byte[] tqdata = new byte[getWidth(tq) * getHeight(tq) * pixsize];
 		tq.setByteData(tqdata);
+		/*
+for (int y=0; y<getHeight(tq); y+=4)
+	for (int x=0; x<getWidth(tq); x+=4)
+		setPixel(tq, x, y, 0xff);
 
+if (tq != null)
+	return;
+*/
 		Random rnd = new Random(tq.hashCode() ^ prefix.hashCode());
 		for (int i = 0; i < tqdata.length; i += 4)
 		{
@@ -354,7 +361,7 @@ public class ProcTexProvider
 
 		// draw around the borders
 
-		if (false && tq.level > 8)
+		if (tq.level > 8)
 		{
 			for (int x = 0; x < s; x++)
 			{
@@ -417,6 +424,21 @@ public class ProcTexProvider
 
 			for (int x = 0; x < s; x += 2)
 			{
+				/*
+				// naive implementation
+				surr1 =
+					(getPixel(parent, xx - 1, yy - 1) << 0)
+						| (getPixel(parent, xx, yy - 1) << 8)
+						| (getPixel(parent, xx + 1, yy - 1) << 16)
+						| (getPixel(parent, xx + 1, yy) << 24);
+				surr2 =
+					(getPixel(parent, xx + 1, yy + 1) << 0)
+						| (getPixel(parent, xx, yy + 1) << 8)
+						| (getPixel(parent, xx - 1, yy + 1) << 16)
+						| (getPixel(parent, xx - 1, yy) << 24);
+				parpix = getPixel(parent, xx, yy);
+				surround = ((surr1) & 0xffffffffL) | (((surr2) & 0xffffffffL) << 32);
+				*/
 				int newpix = confab.newPixel(parpix, surround);
 				tqdata[y * s + x] = (byte) (newpix);
 				tqdata[y * s + x + 1] = (byte) (newpix >> 8);

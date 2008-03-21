@@ -34,7 +34,7 @@ extends PixelConfabulator
 		int n = nextRand(parpix,surround,nmask)&7;
 		if ((nmask & (1<<n)) != 0)
 		{
-			long s = surround>>>(n*8);
+			long s = surround>>>(n<<3);
 			return ((int)s) & 0xff;
 		} else
 			return parpix;

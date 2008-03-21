@@ -60,7 +60,7 @@ public class ProcTexBrowser extends JFrame implements KeyListener
 		pane = new JScrollPane(wbrowser);
 		getContentPane().add(pane);
 
-		setZoomLevel(8);
+		setZoomLevel(0);
 
 		Component p = wbrowser;
 		p.addKeyListener(this);
@@ -191,7 +191,7 @@ public class ProcTexBrowser extends JFrame implements KeyListener
 	public static void main(String[] args) throws Exception
 	{
 
-		String planet = "Earth";
+		String planet = "Luna";
 		String prefix = planet;
 		if (args.length > 0)
 		{
@@ -200,26 +200,30 @@ public class ProcTexBrowser extends JFrame implements KeyListener
 		if (args.length > 1)
 			prefix = args[1];
 
-//		ProcTexProvider ptp = getEarthPlanet(planet, prefix);
-		ProcTexProvider ptp = getRandomPlanet();
+		ProcTexProvider ptp = getEarthPlanet(planet, prefix);
+//		ProcTexProvider ptp = getRandomPlanet();
 
 		ProcTexBrowser brow = new ProcTexBrowser(ptp);
 		brow.pack();
 		brow.setSize(512, 512);
 		brow.setVisible(true);
+		brow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	static ProcTexProvider getEarthPlanet(String planet, String prefix)
 	{
 		ProcTexProvider ptp = new ProcTexProvider();
-		ptp.setPathPrefix("texs/" + planet + "/" + prefix);
+		//ptp.setPathPrefix("texs/" + planet + "/" + prefix);
+		ptp.setPathPrefix("elevtexs/" + planet + "/" + prefix + "-elev");
+		ptp.setPixelConfabulator(new RandomNeighborPixelConfabulator());
 		return ptp;
 	}
 
 	static ProcTexProvider getRandomPlanet()
 	{
-		ProcTexProvider ptp = new ProcTexProvider(6,2);
-		ptp.setPixelConfabulator(new CompositePixelConfabulator());
+		ProcTexProvider ptp = new ProcTexProvider(7,2);
+		//ptp.setPixelConfabulator(new CompositePixelConfabulator());
+		ptp.setPixelConfabulator(new AveragingPixelConfabulator());
 		ptp.setPathPrefix("foobar");
 		return ptp;
 	}

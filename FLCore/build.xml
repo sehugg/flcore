@@ -113,7 +113,7 @@
 	</unzip>
 </target>
 		
-<target name="get-dependencies" depends="get-jogl,get-jinput">
+<target name="get-dependencies" depends="get-jogl,get-joal,get-jinput">
 </target>
 
 <!-- ********** -->
