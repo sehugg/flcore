@@ -88,30 +88,32 @@
 	</unzip>
 </target>
 
-<target name="get-sdl">
+<target name="get-joal">
 	<get
-		src="http://www.libsdl.org/release/SDL-1.2.13-${sdljava.platform}.zip"
-		dest="temp/sdl-${sdljava.platform}.zip"/>
-<!--
-	<unzip src="sdl-${sdljava.platform}.zip" dest="lib/${jogl.platform}/">
-		<mapper type="flatten"/>
-	</unzip>
--->
-</target>
-		
-<target name="get-sdljava">
-	<get
-		src="http://downloads.sourceforge.net/sdljava/sdljava-0.9.1-${sdljava.platform}-bin.zip"
-		dest="temp/sdljava-${sdljava.platform}.zip"/>
-	<unzip src="temp/sdljava-${sdljava.platform}.zip" dest="lib/${jogl.platform}/">
+		src="http://download.java.net/media/joal/builds/archive/1.1.1/joal-1.1.1-${jogl.platform}.zip"
+		dest="temp/joal-${jogl.platform}.zip"/>
+	<unzip src="temp/joal-${jogl.platform}.zip" dest="lib/${jogl.platform}/">
 		<patternset>
 	        	<include name="**/lib/*"/>
 		</patternset>
 		<mapper type="flatten"/>
 	</unzip>
 </target>
-	
-<target name="get-dependencies" depends="get-jogl,get-sdljava,get-sdl">
+
+<target name="get-jinput">
+	<get
+		src="http://www.newdawnsoftware.com/resources/jinput/jinput_combined_dist_20080109.zip"
+		dest="temp/jinput.zip"/>
+	<unzip src="temp/jinput.zip" dest="lib/${jogl.platform}/">
+		<!-- todo: only include platform-dependent files -->
+		<patternset>
+	        	<include name="dist/*"/>
+		</patternset>
+		<mapper type="flatten"/>
+	</unzip>
+</target>
+		
+<target name="get-dependencies" depends="get-jogl,get-jinput">
 </target>
 
 <!-- ********** -->
