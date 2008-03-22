@@ -34,30 +34,31 @@ import com.sun.opengl.util.BufferUtil;
   */
 public class ProcTexProvider
 {
-	String prefix;
+	private String prefix;
 	// optz: replace with smarter cache
-	LruHashtable tqcache;
-	int pixsize = 1;
-	String suffix = ".raw";
-	byte[] palette;
-	int[] palints;
+	private LruHashtable tqcache;
+	private int pixsize = 1;
+	private String suffix = ".raw";
+	private byte[] palette;
+	private int[] palints;
+	private boolean hasPalette = true;
 
 	public static final int MIN_LEVEL = 7;
 	public static final int MAX_LEVEL = 29;
 
-	PixelConfabulator confab = new DefaultPixelConfabulator();
+	private PixelConfabulator confab = new DefaultPixelConfabulator();
 
-	boolean cacheAll = true;
+	private boolean cacheAll = true;
 
-	float minvalue, maxvalue; // for elevationmodel
-	boolean squashRange;
+	private float minvalue, maxvalue; // for elevationmodel
+	private boolean squashRange;
 
-	int texPower = 8;
-	int texSize = (1 << texPower);
-	int borderSize = 2;
-	int usableTexSize = texSize - borderSize * 2;
+	private int texPower = 8;
+	private int texSize = (1 << texPower);
+	private int borderSize = 2;
+	private int usableTexSize = texSize - borderSize * 2;
 
-	int arrmask;
+	private int arrmask;
 
 	//
 
@@ -97,6 +98,22 @@ public class ProcTexProvider
 	{
 		return pixsize;
 	}
+	
+	public void setHasPalette(boolean hasPal)
+	{
+		this.hasPalette = hasPal;
+	}
+	
+	public boolean hasPalette()
+	{
+		return hasPalette;
+	}
+	
+	void checkPalette()
+	{
+		if (palette == null)
+			throw new RuntimeException("No palette for " + prefix);
+	}
 
 	public void setPixelConfabulator(PixelConfabulator confab)
 	{
@@ -119,11 +136,13 @@ public class ProcTexProvider
 
 	public byte[] getPaletteBytes()
 	{
+		checkPalette();
 		return palette;
 	}
 
 	public int[] getPaletteInts()
 	{
+		checkPalette();
 		return palints;
 	}
 
@@ -160,7 +179,8 @@ public class ProcTexProvider
 	public void setPathPrefix(String prefix)
 	{
 		this.prefix = prefix;
-		loadPalette();
+		if (hasPalette)
+			loadPalette();
 		if (debug)
 			System.out.println("Prefix is " + prefix);
 	}
@@ -200,8 +220,7 @@ public class ProcTexProvider
 
 	public void getRGBData(TexQuad tq, IntBuffer ints)
 	{
-		if (palette == null)
-			throw new RuntimeException("No palette for " + prefix);
+		checkPalette();
 		byte[] bytes = tq.getByteData();
 		int l = bytes.length;
 		ints.position(0);

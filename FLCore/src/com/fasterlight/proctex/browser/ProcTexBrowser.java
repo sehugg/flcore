@@ -83,6 +83,7 @@ public class ProcTexBrowser extends JFrame implements KeyListener
 			pane.getViewport().setViewPosition(new Point(p.x >> (oldz - z), p.y >> (oldz - z)));
 		}
 		wbrowser.revalidate();
+		wbrowser.repaint();
 	}
 
 	MemoryImageSource getImageSourceForQuad(TexQuad tq)
@@ -154,15 +155,17 @@ public class ProcTexBrowser extends JFrame implements KeyListener
 			g.fillRect(clip.x, clip.y, clip.width, clip.height);
 			int b = ptp.getBorder();
 			int sc = ptp.getTexSize() - b * 2;
+			int pz = sc;
+			g.setColor(Color.blue);
 			for (int y = -1; y <= ymax; y++)
 			{
 				for (int x = -1; x <= xmax; x++)
 				{
 					int qx = (x & (xmax - 1));
 					int qy = (y & (ymax - 1));
-					int xx = x * sc + sc/2;
-					int yy = y * sc + sc/2;
-					Rectangle rect = new Rectangle(xx, yy, sc, sc);
+					int xx = x * pz + pz/2;
+					int yy = y * pz + pz/2;
+					Rectangle rect = new Rectangle(xx, yy, pz, pz);
 					if (rect.intersects(clip))
 					{
 						TexQuad tq = new TexQuad(qx, qy, zoomlevel);
@@ -175,9 +178,14 @@ public class ProcTexBrowser extends JFrame implements KeyListener
 							rect.y + rect.height,
 							b,
 							b,
-							b + rect.width,
-							b + rect.height,
+							b + sc,
+							b + sc,
 							this);
+						int cx = rect.x+rect.width/2;
+						int cy = rect.y+rect.height/2;
+						g.drawLine(cx,cy-3,cx,cy+3);
+						g.drawLine(cx-3,cy,cx+3,cy);
+						g.drawString(zoomlevel+"-"+qx+"-"+qy, cx, cy-10);
 					}
 				}
 			}
