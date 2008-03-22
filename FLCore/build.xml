@@ -6,7 +6,6 @@
 		
 <property name="project.name" value="FLCore" />
 <property name="jogl.platform" value="windows-i586" />
-<property name="sdljava.platform" value="win32" />
 
 <path id="libs.path">
 	<pathelement location="lib/${jogl.platform}/jogl.jar" />
