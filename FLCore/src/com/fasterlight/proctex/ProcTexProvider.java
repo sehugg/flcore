@@ -74,12 +74,13 @@ public class ProcTexProvider
 		this.borderSize = border;
 		this.usableTexSize = texSize - borderSize * 2;
 		this.arrmask = getMask(texPower);
-		setLRUCacheSize(13);
-	}
-
-	public void setLRUCacheSize(int cachePower)
-	{
-		this.tqcache = new LruHashtable(1 << (cachePower - texPower));
+		// base the cache size on available memory
+		// (we assume only one cache is heavily active at a time)
+		long maxMemory = Runtime.getRuntime().maxMemory();
+		int lruSize = (int)(maxMemory / (texSize*texSize*4));
+		if (lruSize <= 0) // maxMemory could be Long.MAX_VALUE
+			lruSize = 256;
+		this.tqcache = new LruHashtable(lruSize);
 	}
 
 	public int getMask(int level)
@@ -247,9 +248,6 @@ public class ProcTexProvider
 			int skip = 0 * 786;
 			int l = w * h * pixsize;
 			IOUtil.grabRawBytes(path, cmap, 0, l, skip, pixsize, pixsize);
-			// crappy tga!
-			//			for (int i=0; i<l; i++)
-			//				cmap[i] = (byte)~cmap[i];
 			tq.setByteData(cmap);
 			tq.minvalue = minvalue;
 			tq.maxvalue = maxvalue;
