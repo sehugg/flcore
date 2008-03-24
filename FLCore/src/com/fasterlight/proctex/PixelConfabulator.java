@@ -35,15 +35,15 @@ public abstract class PixelConfabulator
 
 	//
 
-	private Random rnd = new Random();
 	private int level;
-
-	//
-
-	private int getHashed(long seed)
-	{
-		rnd.setSeed(seed);
-		return rnd.nextInt();
+	
+	private int getHashed(long aseed) {
+		// This is a linear congruential pseudorandom number generator, as
+		// defined by D. H. Lehmer and described by Donald E. Knuth in The Art
+		// of Computer Programming, Volume 2: Seminumerical Algorithms, section
+		// 3.2.1.
+		long seed = (aseed * 0x5DEECE66DL + 0xBL) & ((1L << 48) - 1);
+		return (int) (seed >>> 16);
 	}
 
 	protected int nextRand(int parpix, long surround, int nmask)
