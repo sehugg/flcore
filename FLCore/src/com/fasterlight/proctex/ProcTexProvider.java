@@ -51,7 +51,7 @@ public class ProcTexProvider
 	private boolean cacheAll = true;
 
 	private float minvalue, maxvalue; // for elevationmodel
-	private boolean squashRange;
+	private int squashLevel = 0;
 
 	private int texPower = 8;
 	private int texSize = (1 << texPower);
@@ -81,6 +81,11 @@ public class ProcTexProvider
 		if (lruSize <= 0) // maxMemory could be Long.MAX_VALUE
 			lruSize = 256;
 		this.tqcache = new LruHashtable(lruSize);
+	}
+	
+	public void setSquashLevel(int squashLev)
+	{
+		this.squashLevel = squashLev;
 	}
 
 	public int getMask(int level)
@@ -132,9 +137,8 @@ public class ProcTexProvider
 	{
 		this.minvalue = min;
 		this.maxvalue = max;
-		//		squashRange = true;
 	}
-
+	
 	public byte[] getPaletteBytes()
 	{
 		checkPalette();
@@ -337,37 +341,63 @@ if (tq != null)
 		byte[] pqdata = parent.getByteData();
 		int pqmask = getMask(parent.level);
 
-		boolean squash = squashRange;
 		int lopix = 255;
 		int hipix = 0;
+		// we can squash a level if we can cut all of its levels
+		// exactly in 1/2
+		boolean squash = (!parent.squashed) && (squashLevel > 0) && (parent.level >= squashLevel); 
 		if (squash)
 		{
 			for (int i = 0; i <= pqmask; i++)
 			{
 				int pix = pqdata[i] & 0xff;
 				if (pix < lopix)
-					lopix = pix;
-				if (pix > hipix)
-					hipix = pix;
-				if (hipix - lopix >= 128)
 				{
-					squash = false;
-					break;
+					lopix = pix;
+					if (hipix-lopix >= 128)
+					{
+						squash = false;
+						break;
+					}
+				}
+				if (pix > hipix)
+				{
+					hipix = pix;
+					if (hipix-lopix >= 128)
+					{
+						squash = false;
+						break;
+					}
 				}
 			}
 		}
 
-		if (squash)
+		if (squash && hipix > lopix)
 		{
-			tq.minvalue = parent.minvalue + ((parent.maxvalue - parent.minvalue) * lopix) / 255;
-			tq.maxvalue = tq.minvalue + (parent.maxvalue - parent.minvalue) / 2;
-			// todo: scale and bias data
-			System.out.println("Squashed to " + tq.minvalue + ", " + tq.maxvalue);
-		} else
-		{
-			tq.minvalue = parent.minvalue;
-			tq.maxvalue = parent.maxvalue;
+			int cen = ((hipix+lopix+1)>>1);
+			if (cen < 64)
+				cen = 64;
+			if (cen > 192)
+				cen = 192;
+			lopix = cen-64;
+			hipix = cen+64;
+			assert(lopix>=0&&hipix<=256);
+			float minvalue = parent.minvalue + ((parent.maxvalue - parent.minvalue) * lopix) / 256;
+			float maxvalue = parent.minvalue + ((parent.maxvalue - parent.minvalue) * hipix) / 256;
+			System.out.println("Squashed " + parent.minvalue + ", " + parent.maxvalue + " to " + minvalue + ", " + maxvalue + " range " + (maxvalue-minvalue));
+			byte[] src = pqdata;
+			pqdata = new byte[pqdata.length];
+			for (int i=0; i<=pqmask; i++)
+			{
+				pqdata[i] = (byte)((src[i]-lopix)*256/(hipix-lopix));
+			}
+			// TODO: not threadsafe
+			parent.setData(minvalue, maxvalue, pqdata);
 		}
+
+		parent.squashed = true;
+		tq.minvalue = parent.minvalue;
+		tq.maxvalue = parent.maxvalue;
 
 		// get the upper-left position
 		// if border is 2, (1,1) on our parent quad goes to

@@ -23,6 +23,7 @@ extends TexKey
 {
 	public byte[] data;
 	public float minvalue, maxvalue;
+	public boolean squashed = false;
 
 	//
 
@@ -54,6 +55,14 @@ extends TexKey
 	public float byteToValue(byte b)
 	{
 		return byteToValue(b & 0xff);
+	}
+
+	public synchronized void setData(float minvalue2, float maxvalue2, byte[] src)
+	{
+		this.minvalue = minvalue2;
+		this.maxvalue = maxvalue2;
+		this.data = src;
+		this.squashed = true;
 	}
 }
 
