@@ -408,7 +408,7 @@ public abstract class GLOComponent implements PropertyAware
 		}
 	}
 	
-	public void setanchor(String flagset)
+	public void setAnchor(String flagset)
 	{
 		int flags = 0;
 		flagset = flagset.toLowerCase();
@@ -723,7 +723,7 @@ public abstract class GLOComponent implements PropertyAware
 		prophelp.registerGetSet("visible", "Visible", boolean.class);
 		prophelp.registerGetSet("raised", "Raised", boolean.class);
 		prophelp.registerGetSet("name", "Name", String.class);
-		prophelp.registerSet("anchor", "setanchor", String.class);
+		prophelp.registerSet("anchor", "setAnchor", String.class);
 	}
 
 	public Object getProp(String key)
