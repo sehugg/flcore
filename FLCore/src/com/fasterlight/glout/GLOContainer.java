@@ -152,11 +152,24 @@ extends GLOComponent
 
 	public void layout()
 	{
+		// layout children
 		Iterator it = getChildren();
 		while (it.hasNext())
 		{
 			GLOComponent cmpt = (GLOComponent)it.next();
 			cmpt.layout();
+		}
+	}
+
+	public void align()
+	{
+		super.align();
+		// layout children
+		Iterator it = getChildren();
+		while (it.hasNext())
+		{
+			GLOComponent cmpt = (GLOComponent)it.next();
+			cmpt.align();
 		}
 	}
 

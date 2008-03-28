@@ -36,6 +36,12 @@ public abstract class GLOComponent implements PropertyAware
 	protected boolean visible = true;
 	protected boolean wiggedout; // if error occurs...
 	protected String cmptname;
+	protected int alignFlags = 0;
+	
+	public static final int ALIGN_LEFT   = 1;
+	public static final int ALIGN_RIGHT  = 2;
+	public static final int ALIGN_TOP    = 4;
+	public static final int ALIGN_BOTTOM = 8;
 
 	//
 
@@ -383,6 +389,43 @@ public abstract class GLOComponent implements PropertyAware
 	}
 
 	/**
+	 * Align size of component to parent based on alignFlags.
+	 */
+	public void align()
+	{
+		if (alignFlags != 0 && parent != null)
+		{
+			if ((alignFlags & ALIGN_LEFT) != 0)
+				x1 = parent.w1 - w1;
+			if ((alignFlags & ALIGN_RIGHT) != 0)
+				w1 = parent.w1 - x1;
+			if ((alignFlags & ALIGN_TOP) != 0)
+				y1 = parent.h1 - h1;
+			if ((alignFlags & ALIGN_BOTTOM) != 0)
+				h1 = parent.h1 - y1;
+			System.out.println("align " + this + " to " + getSize());
+		}
+	}
+	
+	public void setAlignFlags(String flagset)
+	{
+		int flags = 0;
+		flagset = flagset.toLowerCase();
+		for (int i=0; i<flagset.length(); i++)
+		{
+			char ch = flagset.charAt(i);
+			switch (ch)
+			{
+			case 'l' : flags |= ALIGN_LEFT; break;
+			case 'r' : flags |= ALIGN_RIGHT; break;
+			case 't' : flags |= ALIGN_TOP; break;
+			case 'b' : flags |= ALIGN_BOTTOM; break;
+			}
+		}
+		alignFlags = flags;
+	}
+
+	/**
 	 * Render the component. NOTE: This should only be called from GLOContext so that the
 	 * appropriate clipping rectangle, projection matrix, and other parameters may be set.
 	 */
@@ -679,6 +722,7 @@ public abstract class GLOComponent implements PropertyAware
 		prophelp.registerGetSet("visible", "Visible", boolean.class);
 		prophelp.registerGetSet("raised", "Raised", boolean.class);
 		prophelp.registerGetSet("name", "Name", String.class);
+		prophelp.registerSet("alignflags", "setAlignFlags", String.class);
 	}
 
 	public Object getProp(String key)
