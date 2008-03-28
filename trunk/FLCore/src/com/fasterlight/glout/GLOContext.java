@@ -70,6 +70,10 @@ public class GLOContext extends GLOContainer
 	// coordinates will be scaled to fit
 	Dimension viewSize;
 
+	// minimum size of world -- if set, we won't set world coordinates
+	// less than this during alignment
+	Dimension minSize = new Dimension(0, 0);
+	
 	// contains Lists of components -- supports GLOSingletonContainer
 	HashMap groups = new HashMap();
 
@@ -228,6 +232,16 @@ public class GLOContext extends GLOContainer
 	 * h1*1f/viewSize.height, 1); }
 	 */
 
+	public void setMinimumSize(int width, int height)
+	{
+		this.minSize = new Dimension(width, height);
+	}
+	
+	public Dimension getMinimumSize()
+	{
+		return new Dimension(minSize);
+	}
+	
 	public void setViewSize(int x, int y)
 	{
 		viewSize = new Dimension(x, y);

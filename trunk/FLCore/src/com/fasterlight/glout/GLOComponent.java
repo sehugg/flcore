@@ -395,6 +395,7 @@ public abstract class GLOComponent implements PropertyAware
 	{
 		if (alignFlags != 0 && parent != null)
 		{
+			System.out.print("align(" + alignFlags + ") " + this + " " + getBounds());
 			if ((alignFlags & ALIGN_LEFT) != 0)
 				x1 = parent.w1 - w1;
 			if ((alignFlags & ALIGN_RIGHT) != 0)
@@ -403,7 +404,7 @@ public abstract class GLOComponent implements PropertyAware
 				y1 = parent.h1 - h1;
 			if ((alignFlags & ALIGN_BOTTOM) != 0)
 				h1 = parent.h1 - y1;
-			System.out.println("align " + this + " to " + getSize());
+			System.out.println(" to " + getBounds());
 		}
 	}
 	
@@ -746,8 +747,11 @@ public abstract class GLOComponent implements PropertyAware
 			setSize(PropertyUtil.toInt(value), getHeight());
 		else if ("height".equals(key))
 			setSize(getWidth(), PropertyUtil.toInt(value));
-		else if ("type".equals(key));
+		// ignore these, handled elsewhere
+		else if ("type".equals(key)); 
 		else if ("parent".equals(key));
+		else if ("layout".equals(key));
+		else if ("load".equals(key));
 		else if (key.startsWith("shader$") && value != null)
 			addShader(key.substring(7), ctx.getShader(value.toString()));
 		else
