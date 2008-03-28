@@ -36,7 +36,7 @@ public abstract class GLOComponent implements PropertyAware
 	protected boolean visible = true;
 	protected boolean wiggedout; // if error occurs...
 	protected String cmptname;
-	protected int alignFlags = 0;
+	protected int anchor = 0;
 	
 	public static final int ALIGN_LEFT   = 1;
 	public static final int ALIGN_RIGHT  = 2;
@@ -389,26 +389,26 @@ public abstract class GLOComponent implements PropertyAware
 	}
 
 	/**
-	 * Align size of component to parent based on alignFlags.
+	 * Align size of component to parent based on anchor.
 	 */
 	public void align()
 	{
-		if (alignFlags != 0 && parent != null)
+		if (anchor != 0 && parent != null)
 		{
-			System.out.print("align(" + alignFlags + ") " + this + " " + getBounds());
-			if ((alignFlags & ALIGN_LEFT) != 0)
+			System.out.print("align(" + anchor + ") " + this + " " + getBounds());
+			if ((anchor & ALIGN_LEFT) != 0)
 				x1 = parent.w1 - w1;
-			if ((alignFlags & ALIGN_RIGHT) != 0)
+			if ((anchor & ALIGN_RIGHT) != 0)
 				w1 = parent.w1 - x1;
-			if ((alignFlags & ALIGN_TOP) != 0)
+			if ((anchor & ALIGN_TOP) != 0)
 				y1 = parent.h1 - h1;
-			if ((alignFlags & ALIGN_BOTTOM) != 0)
+			if ((anchor & ALIGN_BOTTOM) != 0)
 				h1 = parent.h1 - y1;
 			System.out.println(" to " + getBounds());
 		}
 	}
 	
-	public void setAlignFlags(String flagset)
+	public void setanchor(String flagset)
 	{
 		int flags = 0;
 		flagset = flagset.toLowerCase();
@@ -423,7 +423,7 @@ public abstract class GLOComponent implements PropertyAware
 			case 'b' : flags |= ALIGN_BOTTOM; break;
 			}
 		}
-		alignFlags = flags;
+		anchor = flags;
 	}
 
 	/**
@@ -723,7 +723,7 @@ public abstract class GLOComponent implements PropertyAware
 		prophelp.registerGetSet("visible", "Visible", boolean.class);
 		prophelp.registerGetSet("raised", "Raised", boolean.class);
 		prophelp.registerGetSet("name", "Name", String.class);
-		prophelp.registerSet("alignflags", "setAlignFlags", String.class);
+		prophelp.registerSet("anchor", "setanchor", String.class);
 	}
 
 	public Object getProp(String key)
