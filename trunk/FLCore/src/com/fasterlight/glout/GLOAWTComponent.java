@@ -133,9 +133,15 @@ public class GLOAWTComponent
 		if (ctx != null)
 		{
 			if (resizeViewSize)
+			{
 				ctx.setViewSize(w, h);
+			}
 			else
+			{
+				ctx.setViewSize(w, h);
 				ctx.setSize(w, h);
+				ctx.align();
+			}
 		}
 	}
 
