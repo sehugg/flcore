@@ -42,6 +42,8 @@ public abstract class GLOComponent implements PropertyAware
 	public static final int ALIGN_RIGHT  = 2;
 	public static final int ALIGN_TOP    = 4;
 	public static final int ALIGN_BOTTOM = 8;
+	public static final int ALIGN_HCENTER = 16;
+	public static final int ALIGN_VCENTER = 32;
 
 	//
 
@@ -391,20 +393,27 @@ public abstract class GLOComponent implements PropertyAware
 	/**
 	 * Align size of component to parent based on anchor.
 	 */
-	public void align()
+	public void reanchor(int dx, int dy)
 	{
 		if (anchor != 0 && parent != null)
 		{
-			System.out.print("align(" + anchor + ") " + this + " " + getBounds());
+			Rectangle bounds = new Rectangle(x1, y1, w1, h1);
+			//System.out.print("align(" + anchor + ") " + this + " " + bounds);
 			if ((anchor & ALIGN_LEFT) != 0)
-				x1 = parent.w1 - w1;
+				bounds.x += dx;
 			if ((anchor & ALIGN_RIGHT) != 0)
-				w1 = parent.w1 - x1;
+				bounds.width += dx;
 			if ((anchor & ALIGN_TOP) != 0)
-				y1 = parent.h1 - h1;
+				bounds.y += dy;
 			if ((anchor & ALIGN_BOTTOM) != 0)
-				h1 = parent.h1 - y1;
-			System.out.println(" to " + getBounds());
+				bounds.height += dy;
+			if ((anchor & ALIGN_HCENTER) != 0)
+				bounds.x += dx/2;
+			if ((anchor & ALIGN_VCENTER) != 0)
+				bounds.y += dy/2;
+			//System.out.println(" to " + bounds);
+			setSize(bounds.width, bounds.height);
+			setPosition(bounds.x, bounds.y);
 		}
 	}
 	
@@ -421,6 +430,8 @@ public abstract class GLOComponent implements PropertyAware
 			case 'r' : flags |= ALIGN_RIGHT; break;
 			case 't' : flags |= ALIGN_TOP; break;
 			case 'b' : flags |= ALIGN_BOTTOM; break;
+			case 'h' : flags |= ALIGN_HCENTER; break;
+			case 'v' : flags |= ALIGN_VCENTER; break;
 			}
 		}
 		anchor = flags;

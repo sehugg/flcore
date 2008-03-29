@@ -69,6 +69,7 @@ public class GLOContext extends GLOContainer
 	// size of "world" -- if different from screen coordinates,
 	// coordinates will be scaled to fit
 	Dimension viewSize;
+	protected boolean resizeViewSize = true;
 
 	// minimum size of world -- if set, we won't set world coordinates
 	// less than this during alignment
@@ -250,6 +251,24 @@ public class GLOContext extends GLOContainer
 	public void setViewSize(Dimension d)
 	{
 		this.viewSize = (d != null) ? new Dimension(d) : null;
+	}
+
+	public void resize(int w, int h) 
+	{
+		int oldw = this.getWidth();
+		int oldh = this.getHeight();
+
+		if (resizeViewSize)
+		{
+			setViewSize(w, h);
+		}
+		else
+		{
+			setViewSize(w, h);
+			setSize(w, h);
+			if (w != oldw || h != oldh)
+				reanchor(w-oldw,h-oldh);
+		}
 	}
 
 	public boolean isWorldScaled()

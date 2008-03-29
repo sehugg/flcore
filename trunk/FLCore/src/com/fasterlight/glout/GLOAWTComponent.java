@@ -33,7 +33,6 @@ public class GLOAWTComponent
 	protected TextureCache cache;
 	protected GLFontServer fontserv;
 	protected boolean clearAll = false;
-	protected boolean resizeViewSize = true;
 	protected GL gl;
 	protected GLU glu;
 	protected Dimension size = new Dimension();
@@ -129,20 +128,8 @@ public class GLOAWTComponent
 	public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h)
 	{
 		size = new Dimension(w, h);
-
 		if (ctx != null)
-		{
-			if (resizeViewSize)
-			{
-				ctx.setViewSize(w, h);
-			}
-			else
-			{
-				ctx.setViewSize(w, h);
-				ctx.setSize(w, h);
-				ctx.align();
-			}
-		}
+			ctx.resize(w, h);
 	}
 
 	///
