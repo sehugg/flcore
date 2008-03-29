@@ -140,6 +140,42 @@ extends GLOComponent
 				}
 			}
 		}
+		else if (isClickable() && event instanceof GLOKeyEvent
+				&& ((GLOKeyEvent) event).isPressed())
+		{
+			GLOKeyEvent ev = (GLOKeyEvent)event;
+			switch (ev.getKeyCode())
+			{
+			case GLOKeyEvent.VK_UP:
+			{
+				for (int i=1; i<getRowCount(); i++)
+				{
+					if (isSelected(i))
+					{
+						selectRow(i-1);
+						centerOnRow(i-1);
+						notifyDataChanged();
+						return true;
+					}
+				}
+				break;
+			}
+			case GLOKeyEvent.VK_DOWN:
+			{
+				for (int i=0; i<getRowCount()-1; i++)
+				{
+					if (isSelected(i))
+					{
+						selectRow(i+1);
+						centerOnRow(i+1);
+						notifyDataChanged();
+						return true;
+					}
+				}
+				break;
+			}
+			}
+		}
 		else if (event instanceof GLOFocusEvent)
 		{
 			return true;
