@@ -161,16 +161,17 @@ extends GLOComponent
 		}
 	}
 
-	public void align()
+	public void reanchor(int dx, int dy)
 	{
-		super.align();
-		// layout children
+		// resize children
 		Iterator it = getChildren();
 		while (it.hasNext())
 		{
 			GLOComponent cmpt = (GLOComponent)it.next();
-			cmpt.align();
+			cmpt.reanchor(dx, dy);
 		}
+		// resize myself
+		super.reanchor(dx, dy);
 	}
 
 	/**
