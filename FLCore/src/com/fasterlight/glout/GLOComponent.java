@@ -401,16 +401,16 @@ public abstract class GLOComponent implements PropertyAware
 			//System.out.print("align(" + anchor + ") " + this + " " + bounds);
 			if ((anchor & ALIGN_LEFT) != 0)
 				bounds.x += dx;
-			if ((anchor & ALIGN_RIGHT) != 0)
+			else if ((anchor & ALIGN_HCENTER) != 0)
+				bounds.x += dx/2;
+			else if ((anchor & ALIGN_RIGHT) != 0)
 				bounds.width += dx;
 			if ((anchor & ALIGN_TOP) != 0)
 				bounds.y += dy;
-			if ((anchor & ALIGN_BOTTOM) != 0)
-				bounds.height += dy;
-			if ((anchor & ALIGN_HCENTER) != 0)
-				bounds.x += dx/2;
-			if ((anchor & ALIGN_VCENTER) != 0)
+			else if ((anchor & ALIGN_VCENTER) != 0)
 				bounds.y += dy/2;
+			else if ((anchor & ALIGN_BOTTOM) != 0)
+				bounds.height += dy;
 			//System.out.println(" to " + bounds);
 			setSize(bounds.width, bounds.height);
 			setPosition(bounds.x, bounds.y);
