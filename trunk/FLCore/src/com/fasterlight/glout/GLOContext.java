@@ -255,17 +255,18 @@ public class GLOContext extends GLOContainer
 
 	public void resize(int w, int h) 
 	{
-		int oldw = this.getWidth();
-		int oldh = this.getHeight();
-
 		if (resizeViewSize)
 		{
 			setViewSize(w, h);
 		}
 		else
 		{
+			int oldw = this.getWidth();
+			int oldh = this.getHeight();
 			setViewSize(w, h);
 			setSize(w, h);
+			w = Math.max(w, this.getMinimumSize().width);
+			h = Math.max(h, this.getMinimumSize().height);
 			if (w != oldw || h != oldh)
 				reanchor(w-oldw,h-oldh);
 		}
