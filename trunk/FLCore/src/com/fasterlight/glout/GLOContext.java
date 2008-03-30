@@ -263,13 +263,23 @@ public class GLOContext extends GLOContainer
 		{
 			int oldw = this.getWidth();
 			int oldh = this.getHeight();
-			// TODO: stretch only x or y direction depending on aspect
 			setViewSize(w, h);
+			// stretch only x or y direction depending on aspect
+			float relaspect = w*1.0f/h - minSize.width*1.0f/minSize.height;
+			if (relaspect >= 0)
+			{
+				w = Math.round(minSize.width * (1+relaspect));
+				h = minSize.height;
+			} else {
+				w = minSize.width;
+				h = Math.round(minSize.height * (1-relaspect));
+			}
 			setSize(w, h);
-			w = Math.max(w, this.getMinimumSize().width);
-			h = Math.max(h, this.getMinimumSize().height);
 			if (w != oldw || h != oldh)
+			{
+				System.out.println("Resize ui to " + w + " x " + h);
 				reanchor(w-oldw,h-oldh);
+			}
 		}
 	}
 
