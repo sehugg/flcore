@@ -24,8 +24,8 @@ import java.util.*;
 import com.fasterlight.spif.*;
 
 /**
-  * A generic container class that makes no attempt to
-  * lay out its children.
+ * I think the idea here is to make a class that flashes certain areas
+ * during tutorials.
   */
 public class GLODemonstrator
 extends GLOComponent

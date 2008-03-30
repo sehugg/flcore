@@ -118,9 +118,6 @@ public class GLOAWTComponent
 
 		makeComponents();
 
-		// add listeners...
-		// todo: why does GL4Java add a mouse listener???
-		//    	this.addMouseListener(this);
 		glutReportErrors("init()");
 	}
 
@@ -144,7 +141,6 @@ public class GLOAWTComponent
 		try
 		{
 			render();
-
 		} catch (Exception ex)
 		{
 			ex.printStackTrace();

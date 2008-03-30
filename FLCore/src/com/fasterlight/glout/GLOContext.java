@@ -263,6 +263,7 @@ public class GLOContext extends GLOContainer
 		{
 			int oldw = this.getWidth();
 			int oldh = this.getHeight();
+			// TODO: stretch only x or y direction depending on aspect
 			setViewSize(w, h);
 			setSize(w, h);
 			w = Math.max(w, this.getMinimumSize().width);
