@@ -32,7 +32,7 @@ import com.fasterlight.util.*;
 public class Settings implements PropertyAware
 {
 	private static INIFile settings;
-	private static boolean writeable = false;
+	private static boolean writeDefaults = false;
 
 	//
 
@@ -49,9 +49,9 @@ public class Settings implements PropertyAware
 		settings = new CachedINIFile(fn);
 	}
 
-	public static void setWriteable(boolean b)
+	public static void setWriteDefaults(boolean b)
 	{
-		writeable = b;
+		writeDefaults = b;
 	}
 
 	public static String getString(String section, String name, String defvalue)
@@ -61,7 +61,7 @@ public class Settings implements PropertyAware
 		try
 		{
 			String s = settings.getString(section, name, null);
-			if (writeable && s == null && defvalue != null)
+			if (writeDefaults && s == null && defvalue != null)
 			{
 				settings.setString(section, name, defvalue);
 			}
