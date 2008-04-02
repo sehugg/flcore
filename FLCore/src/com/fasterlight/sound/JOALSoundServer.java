@@ -6,13 +6,13 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-import net.java.games.joal.AL;
-import net.java.games.joal.ALFactory;
+import net.java.games.joal.*;
 import net.java.games.joal.util.ALut;
 
 public class JOALSoundServer implements SoundServer {
 
-	AL al = ALFactory.getAL();
+	AL al;
+	ALC alc;
 
 	public class Channel implements SoundChannel {
 
@@ -27,6 +27,7 @@ public class JOALSoundServer implements SoundServer {
 			this.flags = flags;
 			al.alGenSources(1, sources, 0);
 			al.alSourcei(sources[0], AL.AL_BUFFER, clip.buffers[0]);
+			checkError();
 		}
 
 		public Channel(int flags) {
@@ -40,7 +41,7 @@ public class JOALSoundServer implements SoundServer {
 		}
 
 		public void close() {
-			al.alDeleteSources(1, sources, 0);
+			//al.alDeleteSources(1, sources, 0);
 		}
 
 		public boolean isPlaying() {
@@ -118,10 +119,11 @@ public class JOALSoundServer implements SoundServer {
 			this.data = dataa[0];
 			al.alGenBuffers(1, buffers, 0);
 			al.alBufferData(buffers[0], fmt, data, size, freq);
+			checkError();
 		}
 
 		public void finalize() {
-			al.alDeleteBuffers(1, buffers, 0);
+			//al.alDeleteBuffers(1, buffers, 0);
 		}
 
 		public int getSampleRate() {
@@ -150,11 +152,18 @@ public class JOALSoundServer implements SoundServer {
 		if (isopen) {
 			isopen = false;
 			ALut.alutExit();
+			al = null;
+			alc = null;
 		}
 	}
 
 	public void checkError() {
 		int err = al.alGetError();
+		checkError(err);
+	}
+	
+	void checkError(int err)
+	{
 		if (err != al.AL_NO_ERROR) {
 			try {
 				throw new Exception("OpenAL error " + err);
@@ -195,9 +204,23 @@ public class JOALSoundServer implements SoundServer {
 	public void open() {
 		if (!isopen) {
 			ALut.alutInit();
-			isopen = true;
+			al = ALFactory.getAL();
+			alc = ALFactory.getALC();
+			ALCcontext alctx = alc.alcGetCurrentContext();
+			ALCdevice alcdev = alc.alcGetContextsDevice(alctx);
+			try {
+				int[] ver = new int[2];
+				alc.alcGetIntegerv(alcdev, ALC.ALC_MAJOR_VERSION, 1, ver, 0);
+				alc.alcGetIntegerv(alcdev, ALC.ALC_MINOR_VERSION, 1, ver, 1);
+				System.out.println("OpenAL version " + ver[0] + "." + ver[1]);
+				System.out.println("OpenAL device = " + alc.alcGetString(alcdev, ALC.ALC_DEVICE_SPECIFIER));
+			} catch (Exception e) {
+				System.out.println("Could not get OpenAL version: " + e);
+			}
+			checkError(alc.alcGetError(alcdev));
 			queueChannel = new Channel(0);
 			checkError();
+			isopen = true;
 		}
 	}
 
