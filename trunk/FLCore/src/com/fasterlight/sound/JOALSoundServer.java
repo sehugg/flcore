@@ -41,7 +41,7 @@ public class JOALSoundServer implements SoundServer {
 		}
 
 		public void close() {
-			//al.alDeleteSources(1, sources, 0);
+			al.alDeleteSources(1, sources, 0);
 		}
 
 		public boolean isPlaying() {
@@ -123,7 +123,7 @@ public class JOALSoundServer implements SoundServer {
 		}
 
 		public void finalize() {
-			//al.alDeleteBuffers(1, buffers, 0);
+			al.alDeleteBuffers(1, buffers, 0);
 		}
 
 		public int getSampleRate() {
