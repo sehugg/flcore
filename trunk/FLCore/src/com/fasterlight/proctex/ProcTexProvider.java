@@ -58,8 +58,6 @@ public class ProcTexProvider
 	private int borderSize = 2;
 	private int usableTexSize = texSize - borderSize * 2;
 
-	private int arrmask;
-
 	//
 
 	public ProcTexProvider()
@@ -73,7 +71,6 @@ public class ProcTexProvider
 		this.texSize = (1 << texpower);
 		this.borderSize = border;
 		this.usableTexSize = texSize - borderSize * 2;
-		this.arrmask = getMask(texPower);
 		// base the cache size on available memory
 		// (we assume only one cache is heavily active at a time)
 		long maxMemory = Runtime.getRuntime().maxMemory();
@@ -317,6 +314,7 @@ if (tq != null)
 			|| tq.y > (1 << tq.level) >> texPower)
 			throw new IllegalArgumentException("Quad " + tq + " out of range");
 
+		/*
 		if (tq.level == this.getTexPower())
 		{
 			createRandomQuad(tq);
@@ -324,6 +322,7 @@ if (tq != null)
 			tq.maxvalue = 255;
 			return;
 		}
+		*/
 
 		// get the parent quad to use as a reference
 		TexQuad parent = getQuadParent(tq);
@@ -501,7 +500,7 @@ if (tq != null)
 					surround = ((surround >>> 8) & 0x0000000000ffffL) | // (1,2) -> (0,1)
 		 ((surround << 8) & 0xffff0000000000L) | // (4,5) -> (5,6)
 		 (((long) oldparpix) << (8 * 7)) | // cen -> (7)
-		 (((long) pqdata[(yy - 1) * s + xx + 2] & 0xff) << (8 * 2)) | // new -> (2)
+		 (((long) pqdata[((yy - 1) * s + xx + 2) & pqmask] & 0xff) << (8 * 2)) | // new -> (2)
 		 (((long) pqdata[((yy) * s + xx + 2) & pqmask] & 0xff) << (8 * 3)) | // new -> (3)
 		 (((long) pqdata[((yy + 1) * s + xx + 2) & pqmask] & 0xff) << (8 * 4)) // new -> (4)
 	;
@@ -514,6 +513,7 @@ if (tq != null)
 
 	public int getPixel(TexQuad tq, int x, int y)
 	{
+		int arrmask = getMask(tq.level);
 		int i = (((y << texPower) + x) & arrmask) * pixsize;
 		switch (pixsize)
 		{
