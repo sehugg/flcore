@@ -157,9 +157,10 @@ public class JOALSoundServer implements SoundServer {
 		}
 	}
 
-	public void checkError() {
+	public int checkError() {
 		int err = al.alGetError();
 		checkError(err);
+		return err;
 	}
 	
 	void checkError(int err)
@@ -191,7 +192,8 @@ public class JOALSoundServer implements SoundServer {
 			in.close();
 			checkError();
 			return clip;
-		} catch (IOException ioe) {
+		} catch (Exception ioe) {
+			System.err.println("Could not get clip \"" + name + '"');
 			ioe.printStackTrace();
 			return null;
 		}
@@ -219,8 +221,8 @@ public class JOALSoundServer implements SoundServer {
 			}
 			checkError(alc.alcGetError(alcdev));
 			queueChannel = new Channel(0);
-			checkError();
-			isopen = true;
+			if (checkError() == AL.AL_NO_ERROR)
+				isopen = true;
 		}
 	}
 
