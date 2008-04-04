@@ -75,7 +75,6 @@ extends GLOTableContainer
 
 	public void layout()
 	{
-		GLFontServer fs = getContext().getFontServer();
 		removeAllChildren();
 
 		String s = getText();
@@ -86,14 +85,18 @@ extends GLOTableContainer
 			for (int i=0; i<lines.size(); i++)
 			{
 				String line = (String)lines.get(i);
-				GLOLabel lab = new GLOLabel(line, minxchars);
+				GLOLabel lab = new GLOLabel(minxchars+1);
+				lab.setAlignment(GLOLabel.ALIGN_CENTER);
+				lab.setText(line);
 				this.add(lab);
 				row++;
 			}
 		}
 		while (row<minrows)
 		{
-			add(new GLOLabel(""));
+			GLOLabel label = new GLOLabel(minxchars+1);
+			label.setAlignment(GLOLabel.ALIGN_CENTER);
+			add(label);
 			row++;
 		}
 		if (row > 0)
