@@ -501,13 +501,13 @@ public class GLOContext extends GLOContainer
 		try
 		{
 			return target.handleEvent(event);
-		} catch (GLOUserException gloue)
-		{
-			GLOMessageBox.showOk(gloue.getMessage());
-			return false;
 		} catch (Exception ex)
 		{
-			ex.printStackTrace();
+			String msg = UserException.getMessage(ex);
+			if (msg != null)
+			{
+				GLOMessageBox.showOk(msg);
+			}
 			return false;
 		}
 	}

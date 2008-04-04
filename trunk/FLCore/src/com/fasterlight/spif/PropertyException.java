@@ -30,4 +30,9 @@ extends RuntimeException
 	{
 		super(msg);
 	}
+	
+	public PropertyException(Throwable t)
+	{
+		super(t);
+	}
 }
