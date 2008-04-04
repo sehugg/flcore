@@ -18,12 +18,14 @@
 *********************************************************************/
 package com.fasterlight.glout;
 
+import com.fasterlight.util.UserException;
+
 /**
   * An exception that is meant to be caught and displayed in
   * a dialog box.
   */
 public class GLOUserException
-extends RuntimeException
+extends UserException
 {
 	public GLOUserException(String msg)
 	{

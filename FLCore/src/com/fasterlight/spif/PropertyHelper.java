@@ -22,7 +22,6 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 import com.fasterlight.math.*;
-import com.fasterlight.util.Util;
 
 /**
   * This class can help you build a PropertyAware object
@@ -90,10 +89,8 @@ public class PropertyHelper
 			Object o = m.invoke(obj, EMPTY_PARAMS);
 			return o;
 		} catch (Exception exc) {
-			System.out.println("Error getting property " + key);
-			Throwable thr = Util.getBaseException(exc);
-			thr.printStackTrace();
-			throw new PropertyInvokeException(thr.getMessage());
+			System.out.println("Error getting property " + key + ": " + exc);
+			throw new PropertyInvokeException(exc);
 		}
 	}
 
@@ -124,10 +121,8 @@ public class PropertyHelper
 			Object[] arr = { value };
 			mr.m.invoke(obj, arr);
 		} catch (Exception exc) {
-			System.out.println("Error setting property " + key + " to " + value);
-			Throwable thr = Util.getBaseException(exc);
-			thr.printStackTrace();
-			throw new PropertyInvokeException(thr.getMessage());
+			System.out.println("Error setting property " + key + " to " + value + ": " + exc);
+			throw new PropertyInvokeException(exc);
 		}
 	}
 }

@@ -30,4 +30,9 @@ extends PropertyException
 	{
 		super(msg);
 	}
+
+	public PropertyInvokeException(Throwable t)
+	{
+		super(t);
+	}
 }
