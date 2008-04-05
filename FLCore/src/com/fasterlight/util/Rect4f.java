@@ -75,6 +75,22 @@ implements java.io.Serializable
       return "[" + x1 + ',' + y1 + ',' + x2 + ',' + y2 + ']';
    }
 
+public void scale(float xs, float ys)
+{
+	x1 *= xs;
+	x2 *= xs;
+	y1 *= ys;
+	y2 *= ys;
+}
+
+public void translate(double xx, double yy)
+{
+	x1 += xx;
+	x2 += xx;
+	y1 += yy;
+	y2 += yy;
+}
+
    /*
    public static void main(String[] args)
    {
