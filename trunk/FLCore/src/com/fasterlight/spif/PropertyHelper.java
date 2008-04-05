@@ -121,7 +121,8 @@ public class PropertyHelper
 			Object[] arr = { value };
 			mr.m.invoke(obj, arr);
 		} catch (Exception exc) {
-			System.out.println("Error setting property " + key + " to " + value + ": " + exc);
+			System.out.println("Error setting property " + key + " to " + value);
+			exc.printStackTrace();
 			throw new PropertyInvokeException(exc);
 		}
 	}

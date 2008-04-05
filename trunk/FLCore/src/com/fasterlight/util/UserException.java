@@ -14,6 +14,11 @@ public class UserException extends RuntimeException
 		super(arg0);
 	}
 
+	public UserException(String msg, Throwable t)
+	{
+		super(msg,t);
+	}
+
 	public static String getMessage(Throwable t)
 	{
 		while (t != null)

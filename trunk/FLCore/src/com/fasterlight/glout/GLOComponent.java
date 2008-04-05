@@ -24,6 +24,7 @@ import java.util.*;
 import javax.media.opengl.GL;
 
 import com.fasterlight.spif.*;
+import com.fasterlight.util.UserException;
 
 public abstract class GLOComponent implements PropertyAware
 {
@@ -704,14 +705,19 @@ public abstract class GLOComponent implements PropertyAware
 
 	public void setForPropertyKey(PropertyEvaluator pe, Object value)
 	{
+		pe.set(pe.isLocal() ? this : getPropertyTop(), value);
+		/*
 		try
 		{
-			pe.set(pe.isLocal() ? this : getPropertyTop(), value);
+		} catch (UserException ue)
+		{
+			throw ue;
 		} catch (Exception pre)
 		{
 			System.out.println("Error setting property " + pe + " to " + value);
 			pre.printStackTrace(System.out);
 		}
+		*/
 	}
 
 	public String getKey(PropertyEvaluator pe)
