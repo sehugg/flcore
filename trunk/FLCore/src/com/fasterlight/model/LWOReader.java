@@ -1,5 +1,5 @@
 /********************************************************************
-    Copyright (c) 2000-2008 Steven E. Hugg.
+Copyright (c) 2000-2008 Steven E. Hugg.
 
     This file is part of FLCore.
 
@@ -308,6 +308,8 @@ public class LWOReader extends IFFReader
 		{
 			System.out.println("Writing to `" + outfilename + "'...");
 			IOUtil.writeSerializedObject(outfilename, m, true);
+			long lastmod = new File(infilename).lastModified();
+			new File(outfilename).setLastModified(lastmod);
 		}
 
 		System.out.println("Done.");
