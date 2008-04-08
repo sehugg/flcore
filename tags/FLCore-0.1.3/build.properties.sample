@@ -1,0 +1,9 @@
+
+## for Win32 builds (default)
+#jogl.platform=windows-i586
+
+## for Linux (i586) builds
+#jogl.platform=linux-i586
+
+## for Mac OS X builds
+#jogl.platform=macosx-universal

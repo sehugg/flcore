@@ -1,0 +1,26 @@
+
+GLOComponent
+GLOLayout
+\_GLOVerticalLayout
+\_GLOSplitLayout
+\_GLOFlowLayout
+
+GLOFrame
+GLOContainer
+GLOButton
+GLOLabel
+
+GLOContext
+
+--
+
+Each component either renders in 2D coords or full 3D
+if full 3D, it sets its own depth buffer
+
+Assume components are drawn in z-order, and we have a
+linked-list of these
+
+2D coords are in pixels, but we can scale those later
+
+GLOContext is a container that holds top-level windows
+

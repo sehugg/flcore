@@ -1,0 +1,12 @@
+Texture1D TEXTURE_1D
+Texture2D TEXTURE_2D
+Lighting LIGHTING
+Blend BLEND
+DepthTest DEPTH_TEST
+CullFace CULL_FACE
+Fog FOG
+Normalize NORMALIZE
+ScissorTest SCISSOR_TEST
+StencilTest STENCIL_TEST
+AlphaTest ALPHA_TEST
+CullBack CULL_BACK

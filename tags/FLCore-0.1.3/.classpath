@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/png.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/windows-i586/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/windows-i586/jogl.jar"/>
+	<classpathentry kind="lib" path="lib/windows-i586/joal.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
