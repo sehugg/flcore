@@ -3,7 +3,6 @@
  * You need Java (at least 1.4, I just download the latest [http://eclipse.org Eclipse]).
  * You need OpenGL
  * An OpenAL driver is required for sound
- * You need Windows, Linux, or OS X -- but we have only tested recently on Windows
 
 Copy the `build.properties.defaults` file to `build.properties`. Uncomment the `jogl.platform` line which represents your platform (Windows, OS X, Linux)
 
