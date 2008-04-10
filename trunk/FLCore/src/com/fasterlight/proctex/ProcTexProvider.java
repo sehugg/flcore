@@ -383,7 +383,8 @@ if (tq != null)
 			assert(lopix>=0&&hipix<=256);
 			float minvalue = parent.minvalue + ((parent.maxvalue - parent.minvalue) * lopix) / 256;
 			float maxvalue = parent.minvalue + ((parent.maxvalue - parent.minvalue) * hipix) / 256;
-			System.out.println("Squashed " + parent.minvalue + ", " + parent.maxvalue + " to " + minvalue + ", " + maxvalue + " range " + (maxvalue-minvalue));
+			if (debug)
+				System.out.println("Squashed " + parent.minvalue + ", " + parent.maxvalue + " to " + minvalue + ", " + maxvalue + " range " + (maxvalue-minvalue));
 			byte[] src = pqdata;
 			pqdata = new byte[pqdata.length];
 			for (int i=0; i<=pqmask; i++)
@@ -562,7 +563,7 @@ if (tq != null)
 
 	//
 
-	static boolean debug = true;
+	public static boolean debug = false;
 
 	public int getTexPower()
 	{
