@@ -138,10 +138,22 @@ texname=meter2-ALPHA.png
 srcblend=ONE_MINUS_SRC_ALPHA
 destblend=ZERO
 
+[meter-invert]
+color=ffdddddd
+texname=meter2-ALPHA.png
+srcblend=SRC_ALPHA
+destblend=ZERO
+
 [meter-lr]
 color=ffdddddd
 texname=meter3-ALPHA.png
 srcblend=ONE_MINUS_SRC_ALPHA
+destblend=ZERO
+
+[meter-lr-invert]
+color=ffdddddd
+texname=meter3-ALPHA.png
+srcblend=SRC_ALPHA
 destblend=ZERO
 
 [meterpointer]
@@ -155,6 +167,14 @@ height=10
 [metertext]
 color=ffdddddd
 srcblend=ONE_MINUS_SRC_ALPHA
+destblend=ZERO
+fontname=font3-ALPHA
+width=6
+height=8
+
+[metertext-invert]
+color=ffdddddd
+srcblend=SRC_ALPHA
 destblend=ZERO
 fontname=font3-ALPHA
 width=6
